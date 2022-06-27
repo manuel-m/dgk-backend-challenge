@@ -4,9 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "node build.mjs",
-    "start": "node build.mjs && cd dist && node users.js",
-    "dev": "node build.mjs --watch",
+    "start": "node build.mjs; npx pm2 start",
+    "dev": "node build.mjs; npx pm2 start; node build.mjs --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
