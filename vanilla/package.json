@@ -12,7 +12,8 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "esbuild": "^0.14.47"
+    "esbuild": "^0.14.47",
+    "pm2": "^5.2.0"
   },
   "dependencies": {
     "dotenv": "^16.0.1",

@@ -10,9 +10,9 @@ const { port } = svc[svc_name];
 const app = express();
 
 app.get("/", function (req, res) {
-  res.send("hello world\n");
+  res.send(svc_name + "!");
 });
 
-app.listen(port, () => {
-  console.log("users listening on :" + port);
+app.listen(port, "localhost", () => {
+  console.log("listening on :" + port);
 });
