@@ -1,4 +1,4 @@
-export const k8s = { sbin: { start, watch } };
+export const k8s = { sbin: { debug, start, stop, watch } };
 
 function start({ deploy, mservices_enabled }) {
   return [
@@ -10,6 +10,17 @@ function start({ deploy, mservices_enabled }) {
   ].join("\n");
 }
 
+function stop({ deploy }) {
+  return ["#k3s stop sequence", `kubectl delete namespace ${deploy}`].join(
+    "\n"
+  );
+}
+
 function watch({ deploy }) {
   return `watch -t kubectl get pods,svc,ep,deployment -n=${deploy}`;
+}
+
+function debug({ deploy }) {
+  return `kubectl exec -n ${deploy} -it $(kubectl get pods -n ${deploy}|grep ^\${1} | cut -d' ' -f1) \
+-- /bin/bash`;
 }
