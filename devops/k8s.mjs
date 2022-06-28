@@ -5,8 +5,7 @@ function start({ deploy, mservices_enabled }) {
     "#k3s start sequence",
     `kubectl create namespace ${deploy}`,
     ...mservices_enabled.map(
-      (mservice_id) =>
-        `kubectl apply -f dist/${mservice_id}/${mservice_id}.yaml`
+      (mservice_id) => `kubectl apply -f dist/${deploy}/${mservice_id}.yaml`
     ),
   ].join("\n");
 }

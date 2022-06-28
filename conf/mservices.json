@@ -1,12 +1,16 @@
 {
   "events": {
-    "port": 5000
+    "port": 5001
+  },
+  "nginx": {
+    "image": "docker.io/library/nginx:1.23.0",
+    "port": 5002
   },
   "redis": {
     "image": "docker.io/library/redis:5.0.5",
-    "port": 5555
+    "port": 5003
   },
   "users": {
-    "port": 5001
+    "port": 5004
   }
 }
