@@ -1,23 +1,20 @@
-import fs from "fs";
 import esbuild from "esbuild";
 
-const svc_list = ["events", "users"];
+import { conf } from "./toolchain/conf.mjs";
+
+const { dist_path } = conf;
+
+const mservices_list = ["events", "users"];
 
 const { watch } = Opts({ watch: false });
 
-if (watch === false) {
-  for (const f of [".env", "conf.json"]) {
-    fs.copyFileSync("../" + f, "dist/" + f);
-  }
-}
-
-for (const svc_name of svc_list) {
+for (const mservice_id of mservices_list) {
   esbuild
     .build({
-      entryPoints: ["src/" + svc_name + ".svc/index.js"],
+      entryPoints: ["vanilla/src/" + mservice_id + ".svc/index.js"],
       bundle: true,
       platform: "node",
-      outfile: "dist/" + svc_name + ".js",
+      outfile: dist_path + "/app/" + mservice_id + ".js",
       watch,
     })
     .catch(() => process.exit(1));
