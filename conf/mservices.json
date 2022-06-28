@@ -1,0 +1,12 @@
+{
+  "events": {
+    "port": 5000
+  },
+  "redis": {
+    "image": "docker.io/library/redis:5.0.5",
+    "port": 5555
+  },
+  "users": {
+    "port": 5001
+  }
+}

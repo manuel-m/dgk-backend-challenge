@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node build.mjs; npx pm2 start",
+    "setup": "node setup.mjs",
     "dev": "node build.mjs; npx pm2 start; node build.mjs --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

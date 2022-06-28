@@ -6,9 +6,6 @@ const svc_list = ["events", "users"];
 const { watch } = Opts({ watch: false });
 
 if (watch === false) {
-  if (!fs.existsSync("dist")) {
-    fs.mkdirSync("dist");
-  }
   for (const f of [".env", "conf.json"]) {
     fs.copyFileSync("../" + f, "dist/" + f);
   }
