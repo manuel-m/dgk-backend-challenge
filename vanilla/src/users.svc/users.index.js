@@ -1,16 +1,15 @@
-import { appConf } from "../appConf";
-
 import express from "express";
 
-const svc_name = "users";
-const { svc } = appConf({ svc_name });
+import mservices_net from "../../generated/mservices_net.js";
 
-const { port } = svc[svc_name];
+const mservice_id = "users";
+
+const { port } = mservices_net[mservice_id];
 
 const app = express();
 
 app.get("/", function (req, res) {
-  res.send(svc_name + "!");
+  res.send(mservice_id + "!");
 });
 
 app.listen(port, "localhost", () => {

@@ -11,7 +11,7 @@ const { watch } = Opts({ watch: false });
 for (const mservice_id of mservices_list) {
   esbuild
     .build({
-      entryPoints: ["vanilla/src/" + mservice_id + ".svc/index.js"],
+      entryPoints: [`vanilla/src/${mservice_id}.svc/${mservice_id}.index.js`],
       bundle: true,
       platform: "node",
       outfile: dist_path + "/app/" + mservice_id + ".js",
