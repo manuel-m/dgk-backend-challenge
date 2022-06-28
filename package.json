@@ -5,16 +5,14 @@
   "main": "index.js",
   "scripts": {
     "build": "node build.mjs",
-    "__start": "node build.mjs; npx pm2 start",
     "setup": "node setup.mjs",
-    "dev": "node build.mjs; npx pm2 start; node build.mjs --watch",
+    "dev": "node setup.mjs && node build.mjs --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "esbuild": "^0.14.47",
-    "pm2": "^5.2.0"
+    "esbuild": "^0.14.47"
   },
   "dependencies": {
     "dotenv": "^16.0.1",
