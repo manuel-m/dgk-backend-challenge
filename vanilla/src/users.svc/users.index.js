@@ -12,6 +12,6 @@ app.get("/", function (req, res) {
   res.send(mservice_id + "!");
 });
 
-app.listen(port, "localhost", () => {
+app.listen(port, () => {
   console.log("listening on :" + port);
 });

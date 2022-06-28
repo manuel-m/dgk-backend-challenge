@@ -21,7 +21,7 @@ spec:
       volumes:
       - name: app-vol
         hostPath:
-          path: ${dist_path}
+          path: ${dist_path}/app
           type: Directory
       containers:
         - name: ${mservice_id}-container
@@ -30,10 +30,10 @@ spec:
           - name: app-vol
             mountPath: /home/node/app
           workingDir: /home/node/app
-          #command: ["node"]
-          #args: ['${mservice_id}']    
-          command: ['/bin/sh']      
-          args: ['-c', 'while true; do echo waiting; sleep 10; done']
+          command: ["node"]
+          args: ['${mservice_id}.js']    
+          #command: ['/bin/sh']      
+          #args: ['-c', 'while true; do echo waiting; sleep 10; done']
           # imagePullPolicy: "Never"
           # non root user
           securityContext:
@@ -55,5 +55,6 @@ spec:
     - name: ${mservice_id}-port
       port: ${port}
       targetPort: ${port}
-      protocol: TCP`;
+      protocol: TCP
+  type: LoadBalancer`;
 }
