@@ -1,5 +1,5 @@
 {
   "dgk-ort-dev": {
-    "mservices": ["redis", "consents", "users", "nginx"]
+    "mservices": ["mongopi", "redis", "consents", "users", "nginx"]
   }
 }

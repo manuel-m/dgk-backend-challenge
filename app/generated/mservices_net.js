@@ -1,1 +1,1 @@
-export default {"redis":{"port":5003},"consents":{"port":5001},"users":{"port":5004},"nginx":{"port":8001}};
+export default {"mongopi":{"port":5003},"redis":{"port":5004},"consents":{"port":5001},"users":{"port":5005},"nginx":{"port":8001}};

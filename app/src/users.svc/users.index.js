@@ -8,9 +8,33 @@ const { port } = mservices_net[mservice_id];
 RestApp({
   mservice_id,
   port,
-  routes: [["/users", "get", GET_users]],
+  routes: [
+    ["/users", "get", GET_users],
+    ["/users", "post", POST_users],
+    ["/users", "delete", DELETE_users],
+  ],
 });
 
 function GET_users(req, res) {
-  res.send("[SUCCESS]" + mservice_id + "\n");
+  res.json({
+    id: "00000000-0000-0000-0000-000000000000",
+    email: "valid@email.com",
+    consents: [],
+  });
+}
+
+function POST_users(req, res) {
+  res.json({
+    id: "00000000-0000-0000-0000-000000000000",
+    email: "valid@email.com",
+    consents: [],
+  });
+}
+
+function DELETE_users(req, res) {
+  res.json({
+    id: "00000000-0000-0000-0000-000000000000",
+    email: "valid@email.com",
+    consents: [],
+  });
 }

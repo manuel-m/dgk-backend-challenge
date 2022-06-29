@@ -11,7 +11,7 @@ if (fs.existsSync(dist_path) === true) {
   fs.rmSync(dist_path, { recursive: true });
 }
 
-for (const subdir of ["app", "k8s", "sbin"]) {
+for (const subdir of ["app", "data", "k8s", "sbin"]) {
   fs.mkdirSync(dist_path + "/" + subdir, { recursive: true });
 }
 

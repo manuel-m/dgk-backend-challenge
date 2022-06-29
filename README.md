@@ -24,6 +24,9 @@ curl -sfL https://get.k3s.io | sh -s - \
 --disable local-storage \
 --disable-cloud-controller \
 --disable metrics-server
+
+#kubectl rootless
+chmod 644 /etc/rancher/k3s/k3s.yaml
 ```
 
 ## Annexe
