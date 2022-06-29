@@ -1,4 +1,28 @@
-export const k8s = { sbin: { debug, start, stop, watch } };
+export const k8s = {
+  sbin: { debug, start, stop, watch },
+  yaml: {
+    container: {
+      name(mservice_id) {
+        return `${mservice_id}-container`;
+      },
+    },
+    deploy: {
+      name(mservice_id) {
+        return `${mservice_id}-deploy`;
+      },
+    },
+    port: {
+      name(mservice_id) {
+        return `${mservice_id}-port`;
+      },
+    },
+    service: {
+      name(mservice_id) {
+        return `${mservice_id}-svc`;
+      },
+    },
+  },
+};
 
 function start({ deploy, mservices_enabled }) {
   return [

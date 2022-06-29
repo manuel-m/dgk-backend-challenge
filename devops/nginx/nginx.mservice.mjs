@@ -1,13 +1,16 @@
+import { k8s } from "../k8s.mjs";
+
 export const nginx = { Yaml, Xtra: [NginxConfTemplate] };
 
 function NginxConfTemplate({ deploy, dist_path, mservice_id, mservices }) {
   return [
     {
-      out_path: `${dist_path}/`,
+      content: _Content(),
+      path: `${dist_path}/nginx.conf.template`,
     },
   ];
 
-  function _gen() {
+  function _Content() {
     return `user  nginx;
 worker_processes  auto;
 
@@ -40,14 +43,7 @@ http {
     server {
       listen 80;
       resolver kube-dns.kube-system.svc.cluster.local;
-
-      set $dashboard gal-dash-svc.i4b-prod.svc.cluster.local;
-
-      #dashboard
-      location / {
-        proxy_pass http://$dashboard:5555;
-        proxy_read_timeout  90;
-      }
+      ${_ContentProxy("users")}
     }
     #gzip  on;
 
@@ -55,15 +51,28 @@ http {
 }
     `;
   }
-}
 
+  function _ContentProxy(target_mservice_id) {
+    const serviceName = k8s.yaml.service.name(target_mservice_id);
+
+    return `
+    set $${target_mservice_id} ${serviceName}.${deploy}.svc.cluster.local;
+    #${target_mservice_id}
+    location /${target_mservice_id} {
+      proxy_pass http://$${target_mservice_id}:5555;
+      proxy_read_timeout  90;
+    }
+  }
+  `;
+  }
+}
 function Yaml({ deploy, dist_path, mservice_id, mservices }) {
   const { image, port } = mservices[mservice_id];
 
   return `apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ${mservice_id}-deployment
+  name: ${k8s.yaml.deploy.name(mservice_id)}
   namespace: ${deploy}
 spec:
   selector:
@@ -80,7 +89,7 @@ spec:
       #      path: ${dist_path}/nginx.conf.template
       #      type: File
       containers:
-        - name: nginx-container
+        - name: ${k8s.yaml.container.name(mservice_id)}
           image: ${image}
           #command: ['/bin/sh']
           #args: ['-c', 'while true; do echo waiting; sleep 10; done']
@@ -96,7 +105,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: ${mservice_id}-svc
+  name: ${k8s.yaml.service.name(mservice_id)}
   namespace: ${deploy}
   labels:
     app: ${mservice_id}
@@ -104,7 +113,7 @@ spec:
   selector:
     app: ${mservice_id}
   ports:
-    - name: nginx-http-net-listen-port
+    - name: ${k8s.yaml.port.name(mservice_id)}
       port: ${port}
       targetPort: 80
       protocol: TCP     
