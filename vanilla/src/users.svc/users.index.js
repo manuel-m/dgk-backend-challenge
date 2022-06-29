@@ -8,8 +8,8 @@ const { port } = mservices_net[mservice_id];
 
 const app = express();
 
-app.get("/", function (req, res) {
-  res.send(mservice_id + "!");
+app.get("/users", function (req, res) {
+  res.send(mservice_id + "ok");
 });
 
 app.listen(port, () => {

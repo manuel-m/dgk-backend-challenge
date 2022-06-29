@@ -1,7 +1,7 @@
 export const redis = { Yaml };
 
-function Yaml({ deploy, mservice_id, mservices }) {
-  const { image, port } = mservices[mservice_id];
+function Yaml({ deploy, mservice_id, mservicesMap }) {
+  const { image, port } = mservicesMap[mservice_id];
 
   return `apiVersion: apps/v1
 kind: Deployment

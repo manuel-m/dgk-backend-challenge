@@ -1,1 +1,1 @@
-export default {"redis":{"port":5003},"users":{"port":5004},"nginx":{"port":5002}};
+export default {"redis":{"port":5002},"users":{"port":5003},"nginx":{"port":8001}};

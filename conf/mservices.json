@@ -4,14 +4,15 @@
   },
   "nginx": {
     "image": "docker.io/library/nginx:1.23.0",
-    "port": 5002
+    "port": 8001
   },
   "redis": {
     "image": "docker.io/library/redis:5.0.5",
-    "port": 5003
+    "port": 5002
   },
   "users": {
     "image": "docker.io/library/node:16.15.1-bullseye",
-    "port": 5004
+    "port": 5003,
+    "proxy_pass": true
   }
 }

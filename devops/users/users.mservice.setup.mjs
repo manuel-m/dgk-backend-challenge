@@ -2,8 +2,8 @@ import { k8s } from "../k8s.mjs";
 
 export const users = { Yaml };
 
-function Yaml({ deploy, dist_path, mservice_id, mservices }) {
-  const { image, port } = mservices[mservice_id];
+function Yaml({ deploy, dist_path, mservice_id, mservicesMap }) {
+  const { image, port } = mservicesMap[mservice_id];
 
   return `apiVersion: apps/v1
 kind: Deployment
@@ -58,5 +58,5 @@ spec:
       port: ${port}
       targetPort: ${port}
       protocol: TCP
-  type: LoadBalancer`;
+`;
 }

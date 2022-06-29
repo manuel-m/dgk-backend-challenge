@@ -1,28 +1,13 @@
+import { yaml } from "./k8s.yaml.mjs";
+
 export const k8s = {
-  sbin: { debug, start, stop, watch },
-  yaml: {
-    container: {
-      name(mservice_id) {
-        return `${mservice_id}-container`;
-      },
-    },
-    deploy: {
-      name(mservice_id) {
-        return `${mservice_id}-deploy`;
-      },
-    },
-    port: {
-      name(mservice_id) {
-        return `${mservice_id}-port`;
-      },
-    },
-    service: {
-      name(mservice_id) {
-        return `${mservice_id}-svc`;
-      },
-    },
-  },
+  sbin: { debug, events, logs, start, stop, watch },
+  yaml,
 };
+
+function logs({ deploy }) {
+  return `kubectl logs -l app=$1 -n ${deploy} -f`;
+}
 
 function start({ deploy, mservices_enabled }) {
   return [
@@ -42,6 +27,10 @@ function stop({ deploy }) {
 
 function watch({ deploy }) {
   return `watch -t kubectl get pods,svc,ep,deployment -n=${deploy}`;
+}
+
+function events({ deploy }) {
+  return `kubectl get events -n ${deploy}`;
 }
 
 function debug({ deploy }) {
