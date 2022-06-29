@@ -38,5 +38,22 @@ spec:
           - name: MONGO_INITDB_ROOT_USERNAME
             value: admin
           - name: MONGO_INITDB_ROOT_PASSWORD
-            value: password`;
+            value: password
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ${k8s.yaml.container.name(mservice_id)}
+  namespace: ${deploy}
+  labels:
+    app: ${mservice_id}
+spec:
+  selector:
+    app: ${mservice_id}
+  ports:
+    - name: ${k8s.yaml.port.name(mservice_id)}
+      port: ${port}
+      targetPort: ${port}
+      protocol: TCP
+  type: LoadBalancer`;
 }

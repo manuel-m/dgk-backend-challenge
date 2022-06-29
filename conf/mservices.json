@@ -8,7 +8,7 @@
   },
   "mongopi": {
     "image": "docker.io/library/mongo:4.2.21-bionic",
-    "port": 5003
+    "port": 27017
   },
   "nginx": {
     "image": "docker.io/library/nginx:1.23.0",

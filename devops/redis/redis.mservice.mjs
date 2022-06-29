@@ -22,19 +22,19 @@ spec:
     spec:
       containers:
       - name: ${k8s.yaml.container.name(mservice_id)}
-          image: ${image}
-          command: ["/bin/sh"]
-          args:
-            [
-              "-c",
-              "cd /tmp&&ln -s /usr/local/bin/redis-server ./${deploy}_redis&&./${deploy}_redis --port ${port}",
-            ]
-          # imagePullPolicy: "Never"
-          # non root user
-          securityContext:
-            runAsUser: 1000
-            runAsGroup: 1000
-            allowPrivilegeEscalation: false
+        image: ${image}
+        command: ["/bin/sh"]
+        args:
+          [
+            "-c",
+            "cd /tmp&&ln -s /usr/local/bin/redis-server ./${deploy}_redis&&./${deploy}_redis --port ${port}",
+          ]
+        # imagePullPolicy: "Never"
+        # non root user
+        securityContext:
+          runAsUser: 1000
+          runAsGroup: 1000
+          allowPrivilegeEscalation: false
 ---
 apiVersion: v1
 kind: Service
