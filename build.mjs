@@ -1,6 +1,6 @@
 import esbuild from "esbuild";
 
-import { conf } from "./toolchain/conf.mjs";
+import { conf } from "./devops/conf.mjs";
 
 const { dist_path } = conf;
 
@@ -11,7 +11,7 @@ const { watch } = Opts({ watch: false });
 for (const mservice_id of mservices_list) {
   esbuild
     .build({
-      entryPoints: [`vanilla/src/${mservice_id}.svc/${mservice_id}.index.js`],
+      entryPoints: [`app/src/${mservice_id}.svc/${mservice_id}.index.js`],
       bundle: true,
       platform: "node",
       outfile: dist_path + "/app/" + mservice_id + ".js",

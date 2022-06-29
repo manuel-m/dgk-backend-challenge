@@ -1,6 +1,6 @@
 import fs from "fs";
 
-import { conf } from "./toolchain/conf.mjs";
+import { conf } from "./devops/conf.mjs";
 
 import { mserviceSetupMap } from "./devops/mservices.setup.mjs";
 import { k8s } from "./devops/k8s.mjs";
@@ -26,7 +26,7 @@ fs.copyFileSync(project_root + "/.env", dist_path + "/.env");
   }, {});
 
   fs.writeFileSync(
-    `${project_root}/vanilla/generated/mservices_net.js`,
+    `${project_root}/app/generated/mservices_net.js`,
     `export default ${JSON.stringify(mservices_net)};`
   );
 }
