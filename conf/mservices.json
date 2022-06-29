@@ -1,6 +1,10 @@
 {
-  "events": {
+  "consents": {
+    "image": "docker.io/library/node:16.15.1-bullseye",
     "port": 5001
+  },
+  "events": {
+    "port": 5002
   },
   "nginx": {
     "image": "docker.io/library/nginx:1.23.0",
@@ -8,11 +12,11 @@
   },
   "redis": {
     "image": "docker.io/library/redis:5.0.5",
-    "port": 5002
+    "port": 5003
   },
   "users": {
     "image": "docker.io/library/node:16.15.1-bullseye",
-    "port": 5003,
+    "port": 5004,
     "proxy_pass": true
   }
 }

@@ -38,7 +38,10 @@ http {
     server {
       listen 80;
       resolver kube-dns.kube-system.svc.cluster.local;
-      ${_ContentProxy("users")}
+      ${Object.keys(mservicesMap)
+        .filter((id) => mservicesMap[id].proxy_pass === true)
+        .map(_ContentProxy)
+        .join("\n")}
     }
 
     #gzip  on;
@@ -57,8 +60,7 @@ http {
     location /${target_mservice_id} {
       proxy_pass http://$${target_mservice_id}:${mservice.port};
       proxy_read_timeout  90;
-    }
-  `;
+    }`;
     }
   }
 }

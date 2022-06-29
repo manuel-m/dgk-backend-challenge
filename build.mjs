@@ -4,7 +4,7 @@ import { conf } from "./toolchain/conf.mjs";
 
 const { dist_path } = conf;
 
-const mservices_list = ["events", "users"];
+const mservices_list = ["consents", "users"];
 
 const { watch } = Opts({ watch: false });
 
