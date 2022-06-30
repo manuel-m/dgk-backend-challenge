@@ -3,6 +3,8 @@ import express from "express";
 export function RestApp({ mservice_id, port, routes }) {
   const app = express();
 
+  app.use(express.json());
+
   process.on("SIGTERM", () => {
     process.exit(0);
   });

@@ -10,7 +10,7 @@ _main();
 
 async function _main() {
   const pi_sql = await PgPiBackend();
-  console.log(pi_sql);
+  // console.log(pi_sql);
 
   RestApp({
     mservice_id,
@@ -23,11 +23,7 @@ async function _main() {
   });
 
   function POST_users(req, res) {
-    res.json({
-      id: "00000000-0000-0000-0000-000000000000",
-      email: "valid@email.com",
-      consents: [],
-    });
+    res.json(req.body);
   }
 }
 
