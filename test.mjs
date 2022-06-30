@@ -13,8 +13,8 @@ function node_run(command) {
   return new Promise(function (resolve) {
     const child = spawn("node", [command]);
 
-    child.stdout.on("data", (mess) => console.log(`${mess}`));
-    child.stderr.on("data", (mess) => console.error(`${mess}`));
+    child.stdout.on("data", (mess) => console.log(`${mess}`.slice(0, -1)));
+    child.stderr.on("data", (mess) => console.error(`${mess}`.slice(0, -1)));
 
     child.on("close", function (code) {
       if (code !== 0) console.log(`child process exited with code ${code}`);
