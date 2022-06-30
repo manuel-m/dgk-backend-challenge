@@ -2,18 +2,28 @@ import fs from "fs";
 import dotenv from "dotenv";
 
 dotenv.config();
-const { deploy } = process.env;
+
+const dotenvRequiredKeys = ["deploy", "pi_user", "pi_password"];
+
 const deploys = JSON.parse(fs.readFileSync("./conf/deploys.json"));
 const mservicesMap = JSON.parse(fs.readFileSync("./conf/mservices.json"));
-const mservices_enabled = deploys[deploy].mservices;
 
 const project_root = process.cwd();
 
-export const conf = {
-  deploy,
+const conf = {
   deploys,
-  dist_path: `${project_root}/dist/${deploy}`,
   project_root,
   mservicesMap,
-  mservices_enabled,
 };
+
+for (const k of dotenvRequiredKeys) {
+  if (k in process.env === false) {
+    throw new Error(`Expected ${k} in .env`);
+  }
+  conf[k] = process.env[k];
+}
+
+conf.mservices_enabled = deploys[conf.deploy].mservices;
+conf.dist_path = `${project_root}/dist/${conf.deploy}`;
+
+export { conf };

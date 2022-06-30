@@ -23,10 +23,8 @@ curl -sfL https://get.k3s.io | sh -s - \
 --disable metrics-server \
 --disable local-storage \
 --disable-cloud-controller \
---disable metrics-server
-
-#kubectl rootless
-chmod 644 /etc/rancher/k3s/k3s.yaml
+--disable metrics-server \
+--write-kubeconfig-mode 644
 ```
 
 ## Annexe

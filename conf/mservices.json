@@ -14,6 +14,10 @@
     "image": "docker.io/library/nginx:1.23.0",
     "port": 8001
   },
+  "postgrespi": {
+    "image": "docker.io/library/postgres:14.4-bullseye",
+    "port": 5432
+  },
   "redis": {
     "image": "docker.io/library/redis:5.0.5",
     "port": 5004

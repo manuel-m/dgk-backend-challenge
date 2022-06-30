@@ -1,9 +1,16 @@
 import { k8s } from "../k8s.mjs";
 
-// mongodb personal information
-export const mongopi = { Yaml };
+// postgres personal information
+export const postgrespi = { Yaml };
 
-function Yaml({ deploy, dist_path, mservice_id, mservicesMap }) {
+function Yaml({
+  deploy,
+  dist_path,
+  mservice_id,
+  pi_user,
+  pi_password,
+  mservicesMap,
+}) {
   const { image, port } = mservicesMap[mservice_id];
 
   return `apiVersion: apps/v1
@@ -21,10 +28,9 @@ spec:
     metadata:
       labels:
         app: ${mservice_id}
-        selector: mongodb
     spec:
       volumes:
-      #- name: mongopi-rw
+      #- name: postgrespi-rw
       #  hostPath:
       #    path: ${dist_path}/data/${mservice_id}
       #    type: Directory    
@@ -32,13 +38,13 @@ spec:
       - name: ${k8s.yaml.container.name(mservice_id)}
         image: ${image}
         #volumeMounts:
-        #- name: mongopi-rw
+        #- name: postgrespi-rw
         #  mountPath: /data/db
         env:
-          - name: MONGO_INITDB_ROOT_USERNAME
-            value: admin
-          - name: MONGO_INITDB_ROOT_PASSWORD
-            value: password
+          - name: POSTGRES_USER
+            value: ${pi_user}
+          - name: POSTGRES_PASSWORD
+            value: ${pi_password}
 ---
 apiVersion: v1
 kind: Service

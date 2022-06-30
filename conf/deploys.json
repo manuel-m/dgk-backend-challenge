@@ -1,5 +1,8 @@
 {
-  "dgk-ort-dev": {
+  "dgk-ort-dev-postgres": {
+    "mservices": ["postgrespi", "redis", "consents", "users", "nginx"]
+  },
+  "dgk-ort-dev-mongo": {
     "mservices": ["mongopi", "redis", "consents", "users", "nginx"]
   }
 }
