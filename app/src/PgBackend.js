@@ -8,9 +8,13 @@ export function PgPiBackend() {
   return PgBackend({
     database: PI_USER,
     host: mservices_net.postgrespi.host,
+    // host: "postgrespi-deploy-0",
     hooks: {
-      onStart(sql) {
-        console.log("pi:onstart");
+      async onStart(sql) {
+        // CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+        // await sql`CREATE TABLE IF NOT EXISTS camel_case (a_test INTEGER, b_test TEXT)`;
+        // const r = await sql`SELECT uuid_generate_v4()`;
+        // console.log(r);
       },
     },
     password: PI_PASSWORD,

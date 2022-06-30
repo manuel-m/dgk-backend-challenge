@@ -15,6 +15,7 @@ function Yaml({
 
   return `apiVersion: apps/v1
 kind: StatefulSet
+#kind: Deployment
 metadata:
   name: ${k8s.yaml.deploy.name(mservice_id)}
   namespace: ${deploy}

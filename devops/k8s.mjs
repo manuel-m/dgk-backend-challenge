@@ -41,8 +41,6 @@ function debug({ deploy }) {
 function restart({ deploy }) {
   return [
     `kubectl delete -f dist/${deploy}/k8s/$1.yaml`,
-    "npm run setup",
-    "npm run build",
     "sleep 2",
     `kubectl apply -f dist/${deploy}/k8s/$1.yaml`,
   ].join("&&");
