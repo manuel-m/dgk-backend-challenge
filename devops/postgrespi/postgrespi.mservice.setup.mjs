@@ -52,7 +52,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: ${k8s.yaml.container.name(mservice_id)}
+  name: ${k8s.yaml.service.name(mservice_id)}
   namespace: ${deploy}
   labels:
     app: ${mservice_id}

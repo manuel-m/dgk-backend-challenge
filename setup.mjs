@@ -22,7 +22,7 @@ fs.copyFileSync(project_root + "/.env", dist_path + "/.env");
 {
   const mservices_net = mservices_enabled.reduce(function (acc, mservice_id) {
     const { port } = mservicesMap[mservice_id];
-    const host = `${mservice_id}.${deploy}.svc.cluster.local`;
+    const host = `${k8s.yaml.service.name(mservice_id)}.${deploy}`;
     acc[mservice_id] = { host, port };
     return acc;
   }, {});

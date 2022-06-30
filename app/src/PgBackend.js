@@ -12,7 +12,7 @@ export function PgPiBackend() {
     hooks: {
       async onStart(sql) {
         // CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-        // await sql`CREATE TABLE IF NOT EXISTS camel_case (a_test INTEGER, b_test TEXT)`;
+        await sql`CREATE TABLE IF NOT EXISTS camel_case (a_test INTEGER, b_test TEXT)`;
         // const r = await sql`SELECT uuid_generate_v4()`;
         // console.log(r);
       },
