@@ -41,10 +41,19 @@ async function _main() {
     if (validate.POST_users.req.body(req.body) === false) {
       return res.status(422).end();
     }
+    const { email, phone } = Object.assign({ phone: "" }, req.body);
+    let err_code = 0;
 
-    const data = JSON.stringify(req.body);
+    await pi_sql`INSERT INTO pi_users (email, phone) values (${email}, ${phone})`.catch(
+      function (err) {
+        err_code = err.code;
+        console.warn(err.message);
+      }
+    );
 
-    await pi_sql`INSERT INTO pi_users (data) values (${data})`;
+    if (err_code !== 0) {
+      return res.status(422).end();
+    }
 
     res.json(req.body);
   }

@@ -17,6 +17,7 @@ _main();
 async function _main() {
   for (const test of [
     users_POST__valid,
+    users_POST__email_duplicate,
     users_POST__empty,
     users_POST__missing_id,
     users_POST__bad_email,
@@ -27,9 +28,11 @@ async function _main() {
 }
 
 async function users_POST__valid() {
+  const email = `john_${Date.now()}@doe.com`;
+
   const { status, data } = await _post(_url("users"), {
     id: crypto.randomUUID(),
-    email: "john@doe.com",
+    email,
   });
   expect({ expected: { status: 200 }, got: { status } });
 
@@ -42,6 +45,28 @@ async function users_POST__valid() {
       ),
     },
   });
+}
+
+async function users_POST__email_duplicate() {
+  const email1 = `john_${Date.now()}@doe.com`;
+
+  // insert 1
+  {
+    const { status } = await _post(_url("users"), {
+      id: crypto.randomUUID(),
+      email: email1,
+    });
+    expect({ expected: { status: 200 }, got: { status } });
+  }
+
+  // insert 2
+  {
+    const { status } = await _post(_url("users"), {
+      id: crypto.randomUUID(),
+      email: email1,
+    });
+    expect({ expected: { status: 422 }, got: { status } });
+  }
 }
 
 async function users_POST__missing_id() {

@@ -12,7 +12,11 @@ export function PgPiBackend() {
     host: mservices_net.postgrespi.host,
     hooks: {
       onConnected(sql) {
-        return sql`CREATE TABLE IF NOT EXISTS pi_users (id uuid DEFAULT uuid_generate_v4 (), data TEXT DEFAULT '')`;
+        return sql`
+        CREATE TABLE IF NOT EXISTS pi_users (
+            id uuid DEFAULT uuid_generate_v4 () PRIMARY KEY, 
+            email TEXT UNIQUE, phone TEXT DEFAULT ''
+        )`;
       },
     },
     password: PI_PASSWORD,
