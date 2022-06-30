@@ -6,19 +6,21 @@ import mservices_net from "../../generated/mservices_net.js";
 const mservice_id = "users";
 const { port } = mservices_net[mservice_id];
 
-PgPiBackend();
+_main();
 
-console.log("pi:index");
+async function _main() {
+  await PgPiBackend();
 
-RestApp({
-  mservice_id,
-  port,
-  routes: [
-    ["/users", "get", GET_users],
-    ["/users", "post", POST_users],
-    ["/users", "delete", DELETE_users],
-  ],
-});
+  RestApp({
+    mservice_id,
+    port,
+    routes: [
+      ["/users", "get", GET_users],
+      ["/users", "post", POST_users],
+      ["/users", "delete", DELETE_users],
+    ],
+  });
+}
 
 function GET_users(req, res) {
   res.json({

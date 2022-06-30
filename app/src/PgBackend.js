@@ -1,3 +1,5 @@
+// https://github.com/porsager/postgres
+
 import postgres from "postgres";
 
 import mservices_net from "../generated/mservices_net";
@@ -8,13 +10,29 @@ export function PgPiBackend() {
   return PgBackend({
     database: PI_USER,
     host: mservices_net.postgrespi.host,
-    // host: "postgrespi-deploy-0",
     hooks: {
-      async onStart(sql) {
-        // CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-        await sql`CREATE TABLE IF NOT EXISTS camel_case (a_test INTEGER, b_test TEXT)`;
-        // const r = await sql`SELECT uuid_generate_v4()`;
-        // console.log(r);
+      async connect(sql) {
+        return new Promise(function (resolve) {
+          _loopConnect();
+          function _loopConnect() {
+            let error_flag = false;
+            sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`
+              .catch(function () {
+                error_flag = true;
+              })
+              .then(function () {
+                if (error_flag === false) {
+                  resolve();
+                } else {
+                  error_flag = false;
+                  setTimeout(_loopConnect, 2000);
+                }
+              });
+          }
+        });
+      },
+      onConnected(sql) {
+        return sql`CREATE TABLE IF NOT EXISTS pi_users (id uuid DEFAULT uuid_generate_v4 (), data TEXT DEFAULT '')`;
       },
     },
     password: PI_PASSWORD,
@@ -24,12 +42,25 @@ export function PgPiBackend() {
 }
 
 function PgBackend({ host, database, hooks, password, port, user }) {
-  const sql = postgres(
-    `postgres://${user}:${password}@${host}:${port}/${database}`
-  );
+  return new Promise(function (resolve) {
+    const sql = postgres(
+      `postgres://${user}:${password}@${host}:${port}/${database}`
+    );
 
-  if (hooks.onStart) {
-    hooks.onStart(sql);
-  }
-  return { sql };
+    if (hooks.connect) {
+      hooks.connect(sql).then(function () {
+        console.log(database + " db connecting...");
+        if (hooks.onConnected) {
+          hooks.onConnected(sql).then(function () {
+            console.log(database + " db ready");
+            resolve(sql);
+          });
+        } else {
+          resolve(sql);
+        }
+      });
+    } else {
+      resolve(sql);
+    }
+  });
 }
