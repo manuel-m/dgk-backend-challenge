@@ -9,7 +9,8 @@ const { port } = mservices_net[mservice_id];
 _main();
 
 async function _main() {
-  await PgPiBackend();
+  const pi_sql = await PgPiBackend();
+  console.log(pi_sql);
 
   RestApp({
     mservice_id,
@@ -20,17 +21,17 @@ async function _main() {
       ["/users", "delete", DELETE_users],
     ],
   });
+
+  function POST_users(req, res) {
+    res.json({
+      id: "00000000-0000-0000-0000-000000000000",
+      email: "valid@email.com",
+      consents: [],
+    });
+  }
 }
 
 function GET_users(req, res) {
-  res.json({
-    id: "00000000-0000-0000-0000-000000000000",
-    email: "valid@email.com",
-    consents: [],
-  });
-}
-
-function POST_users(req, res) {
   res.json({
     id: "00000000-0000-0000-0000-000000000000",
     email: "valid@email.com",

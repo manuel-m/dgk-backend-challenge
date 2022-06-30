@@ -11,26 +11,6 @@ export function PgPiBackend() {
     database: PI_USER,
     host: mservices_net.postgrespi.host,
     hooks: {
-      async connect(sql) {
-        return new Promise(function (resolve) {
-          _loopConnect();
-          function _loopConnect() {
-            let error_flag = false;
-            sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`
-              .catch(function () {
-                error_flag = true;
-              })
-              .then(function () {
-                if (error_flag === false) {
-                  resolve();
-                } else {
-                  error_flag = false;
-                  setTimeout(_loopConnect, 2000);
-                }
-              });
-          }
-        });
-      },
       onConnected(sql) {
         return sql`CREATE TABLE IF NOT EXISTS pi_users (id uuid DEFAULT uuid_generate_v4 (), data TEXT DEFAULT '')`;
       },
@@ -47,20 +27,37 @@ function PgBackend({ host, database, hooks, password, port, user }) {
       `postgres://${user}:${password}@${host}:${port}/${database}`
     );
 
-    if (hooks.connect) {
-      hooks.connect(sql).then(function () {
-        console.log(database + " db connecting...");
-        if (hooks.onConnected) {
-          hooks.onConnected(sql).then(function () {
-            console.log(database + " db ready");
-            resolve(sql);
-          });
-        } else {
+    _loopConnect().then(function () {
+      console.log(database + " db connecting...");
+      if (hooks.onConnected) {
+        hooks.onConnected(sql).then(function () {
+          console.log(database + " db ready");
           resolve(sql);
+        });
+      } else {
+        resolve(sql);
+      }
+    });
+
+    async function _loopConnect() {
+      return new Promise(function (resolve) {
+        _loopConnect();
+        function _loopConnect() {
+          let error_flag = false;
+          sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`
+            .catch(function () {
+              error_flag = true;
+            })
+            .then(function () {
+              if (error_flag === false) {
+                resolve();
+              } else {
+                error_flag = false;
+                setTimeout(_loopConnect, 2000);
+              }
+            });
         }
       });
-    } else {
-      resolve(sql);
     }
   });
 }
