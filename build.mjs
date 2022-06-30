@@ -4,17 +4,27 @@ import { conf } from "./devops/conf.mjs";
 
 const { dist_path } = conf;
 
-const mservices_list = ["consents", "users"];
-
 const { watch } = Opts({ watch: false });
 
-for (const mservice_id of mservices_list) {
+for (const mservice_id of ["consents", "users"]) {
   esbuild
     .build({
       entryPoints: [`app/src/${mservice_id}.svc/${mservice_id}.index.js`],
       bundle: true,
       platform: "node",
       outfile: dist_path + "/app/" + mservice_id + ".js",
+      watch,
+    })
+    .catch(() => process.exit(1));
+}
+
+for (const mtest_id of ["e2e"]) {
+  esbuild
+    .build({
+      entryPoints: [`tests/src/${mtest_id}.tests/${mtest_id}.tests.index.js`],
+      bundle: true,
+      platform: "node",
+      outfile: dist_path + "/tests/" + mtest_id + ".test.js",
       watch,
     })
     .catch(() => process.exit(1));
