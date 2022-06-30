@@ -1,7 +1,7 @@
 import { yaml } from "./k8s.yaml.mjs";
 
 export const k8s = {
-  sbin: { debug, events, logs, restart, start, stop, watch },
+  sbin: { debug, events, logs, reset, restart, start, stop, watch },
   yaml,
 };
 
@@ -45,5 +45,17 @@ function restart({ deploy }) {
     "npm run build",
     "sleep 2",
     `kubectl apply -f dist/${deploy}/k8s/$1.yaml`,
+  ].join("&&");
+}
+
+function reset({ deploy, mservices_enabled }) {
+  return [
+    `kubectl delete namespace ${deploy}`,
+    "npm run setup",
+    "npm run build",
+    `kubectl create namespace ${deploy}`,
+    ...mservices_enabled.map(
+      (mservice_id) => `kubectl apply -f dist/${deploy}/k8s/${mservice_id}.yaml`
+    ),
   ].join("&&");
 }

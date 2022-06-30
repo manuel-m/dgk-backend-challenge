@@ -10,7 +10,7 @@ export function PgPiBackend() {
     host: mservices_net.postgrespi.host,
     hooks: {
       onStart(sql) {
-        console.log("onstart");
+        console.log("pi:onstart");
       },
     },
     password: PI_PASSWORD,

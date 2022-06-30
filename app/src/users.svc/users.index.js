@@ -8,7 +8,7 @@ const { port } = mservices_net[mservice_id];
 
 PgPiBackend();
 
-console.log("----index----");
+console.log("pi:index");
 
 RestApp({
   mservice_id,
