@@ -26,7 +26,6 @@ _main();
 
 async function _main() {
   const pi_sql = await PgPiBackend();
-  // console.log(pi_sql);
 
   RestApp({
     mservice_id,
@@ -38,10 +37,14 @@ async function _main() {
     ],
   });
 
-  function POST_users(req, res) {
+  async function POST_users(req, res) {
     if (validate.POST_users.req.body(req.body) === false) {
       return res.status(422).end();
     }
+
+    const data = JSON.stringify(req.body);
+
+    await pi_sql`INSERT INTO pi_users (data) values (${data})`;
 
     res.json(req.body);
   }
