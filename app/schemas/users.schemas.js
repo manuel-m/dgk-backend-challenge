@@ -12,5 +12,29 @@ export const usersSchemas = {
         additionalProperties: false,
       },
     },
+    res: {
+      data: {
+        type: "object",
+        properties: {
+          id: { type: "string", format: "uuid" },
+          email: { type: "string", format: "email" },
+          consents: {
+            type: "array",
+            items: { $ref: "#/$defs/consents" },
+          },
+        },
+        required: ["id", "email", "consents"],
+        additionalProperties: false,
+        $defs: {
+          consents: {
+            type: "object",
+            properties: {
+              id: { type: "string" },
+              enabled: { type: "boolean" },
+            },
+          },
+        },
+      },
+    },
   },
 };

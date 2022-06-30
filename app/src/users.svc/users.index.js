@@ -8,15 +8,23 @@ import { usersSchemas } from "../../schemas/users.schemas.js";
 import Ajv from "ajv";
 import addFormats from "ajv-formats";
 
+const ajv = new Ajv();
+addFormats(ajv);
+
 const mservice_id = "users";
 const { port } = mservices_net[mservice_id];
+
+const validate = {
+  POST_users: {
+    req: {
+      body: ajv.compile(usersSchemas.POST_users.req.body),
+    },
+  },
+};
 
 _main();
 
 async function _main() {
-  const ajv = new Ajv();
-  addFormats(ajv);
-
   const pi_sql = await PgPiBackend();
   // console.log(pi_sql);
 
@@ -31,12 +39,11 @@ async function _main() {
   });
 
   function POST_users(req, res) {
-    const schema = usersSchemas.POST_users.req.body;
-    const valid = ajv.validate(schema, req.body);
+    if (validate.POST_users.req.body(req.body) === false) {
+      return res.status(422).end();
+    }
 
-    console.log(req.body);
-
-    return valid === false ? res.status(422).end() : res.json(req.body);
+    res.json(req.body);
   }
 }
 

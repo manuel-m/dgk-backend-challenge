@@ -1,8 +1,16 @@
+import crypto from "crypto";
 import axios from "axios";
 
-import crypto from "crypto";
+import { usersSchemas } from "../../../app/schemas/users.schemas";
 
 import { conf } from "../../../devops/conf.mjs";
+
+import Ajv from "ajv";
+import addFormats from "ajv-formats";
+import { cp } from "fs";
+
+const ajv = new Ajv();
+addFormats(ajv);
 
 _main();
 
@@ -19,11 +27,21 @@ async function _main() {
 }
 
 async function users_POST__valid() {
-  const { status } = await _post(_url("users"), {
+  const { status, data } = await _post(_url("users"), {
     id: crypto.randomUUID(),
     email: "john@doe.com",
   });
   expect({ expected: { status: 200 }, got: { status } });
+
+  expect({
+    expected: { "validate(res.data)": true },
+    got: {
+      "validate(res.data)": ajv.validate(
+        usersSchemas.POST_users.res.data,
+        data
+      ),
+    },
+  });
 }
 
 async function users_POST__missing_id() {
@@ -66,7 +84,7 @@ function expect({ expected, got }) {
   const jgot = JSON.stringify(got);
 
   if (jexpected !== jgot) {
-    console.error(">> [EXP] " + jexpected + "\n" + ">> [GOT] " + jgot);
+    console.error(">> [EXP] " + jexpected + "\n" + "<< [GOT] " + jgot);
     process.exit(1);
   }
 }
