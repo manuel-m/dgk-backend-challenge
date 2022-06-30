@@ -1,7 +1,7 @@
 import { yaml } from "./k8s.yaml.mjs";
 
 export const k8s = {
-  sbin: { debug, events, logs, start, stop, watch },
+  sbin: { debug, events, logs, restart, start, stop, watch },
   yaml,
 };
 
@@ -36,4 +36,14 @@ function events({ deploy }) {
 function debug({ deploy }) {
   return `kubectl exec -n ${deploy} -it $(kubectl get pods -n ${deploy}|grep ^\${1} | cut -d' ' -f1) \
 -- /bin/bash`;
+}
+
+function restart({ deploy }) {
+  return [
+    `kubectl delete -f dist/${deploy}/k8s/$1.yaml`,
+    "npm run setup",
+    "npm run build",
+    "sleep 2",
+    `kubectl apply -f dist/${deploy}/k8s/$1.yaml`,
+  ].join("&&");
 }

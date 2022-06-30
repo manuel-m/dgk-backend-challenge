@@ -1,9 +1,14 @@
 import { RestApp } from "../RestApp.js";
+import { PgPiBackend } from "../PgBackend.js";
 
 import mservices_net from "../../generated/mservices_net.js";
 
 const mservice_id = "users";
 const { port } = mservices_net[mservice_id];
+
+PgPiBackend();
+
+console.log("----index----");
 
 RestApp({
   mservice_id,

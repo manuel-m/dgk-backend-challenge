@@ -29,6 +29,22 @@ curl -sfL https://get.k3s.io | sh -s - \
 
 ## Annexe
 
-## Source
+### Source
 
 [Challenge](https://github.com/didomi/challenges/blob/master/backend/README.md)
+
+### postgresql
+
+```
+#psql debug (from container)
+psql -u <pi_user>
+
+#psql shortcuts
+
+\d 	  list of all tables
+\d+ 	list of all relations
+\d    [table name] 	list of the columns, indexes and relations for the [table name]
+\dn 	list of all schemas (namespaces)
+\l 	  list of all databases
+\z 	  list tables with access privileges
+```

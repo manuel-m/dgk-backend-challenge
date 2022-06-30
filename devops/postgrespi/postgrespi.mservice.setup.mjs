@@ -45,6 +45,8 @@ spec:
             value: ${pi_user}
           - name: POSTGRES_PASSWORD
             value: ${pi_password}
+          - name: POSTGRES_DB
+            value: ${pi_user}
 ---
 apiVersion: v1
 kind: Service

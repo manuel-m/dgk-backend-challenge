@@ -1,6 +1,13 @@
 import { k8s } from "./k8s.mjs";
 
-export function Yaml({ deploy, dist_path, mservice_id, mservicesMap }) {
+export function Yaml({
+  deploy,
+  dist_path,
+  pi_user,
+  pi_password,
+  mservice_id,
+  mservicesMap,
+}) {
   const { image, port } = mservicesMap[mservice_id];
 
   return `apiVersion: apps/v1
@@ -40,6 +47,11 @@ spec:
             runAsUser: 1000
             runAsGroup: 1000
             allowPrivilegeEscalation: false
+          env:
+          - name: PI_USER
+            value: ${pi_user}
+          - name: PI_PASSWORD
+            value: ${pi_password}
 ---
 apiVersion: v1
 kind: Service

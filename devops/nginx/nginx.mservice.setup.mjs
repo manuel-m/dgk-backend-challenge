@@ -65,7 +65,7 @@ http {
   }
 }
 
-function Yaml({ deploy, deploys, dist_path, mservice_id, mservicesMap }) {
+function Yaml({ deploy, dist_path, mservice_id, mservicesMap }) {
   const { image, port } = mservicesMap[mservice_id];
 
   return `apiVersion: apps/v1

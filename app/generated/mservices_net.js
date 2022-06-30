@@ -1,1 +1,1 @@
-export default {"postgrespi":{"port":5432},"redis":{"port":5004},"consents":{"port":5001},"users":{"port":5005},"nginx":{"port":8001}};
+export default {"postgrespi":{"host":"postgrespi.dgk-ort-dev-postgres.svc.cluster.local","port":5432},"users":{"host":"users.dgk-ort-dev-postgres.svc.cluster.local","port":5005},"nginx":{"host":"nginx.dgk-ort-dev-postgres.svc.cluster.local","port":8001}};

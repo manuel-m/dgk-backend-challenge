@@ -5,7 +5,8 @@ import { conf } from "./devops/conf.mjs";
 import { mserviceSetupMap } from "./devops/mservices.setup.mjs";
 import { k8s } from "./devops/k8s.mjs";
 
-const { dist_path, mservicesMap, mservices_enabled, project_root } = conf;
+const { deploy, dist_path, mservicesMap, mservices_enabled, project_root } =
+  conf;
 
 if (fs.existsSync(dist_path) === true) {
   fs.rmSync(dist_path, { recursive: true });
@@ -21,7 +22,8 @@ fs.copyFileSync(project_root + "/.env", dist_path + "/.env");
 {
   const mservices_net = mservices_enabled.reduce(function (acc, mservice_id) {
     const { port } = mservicesMap[mservice_id];
-    acc[mservice_id] = { port };
+    const host = `${mservice_id}.${deploy}.svc.cluster.local`;
+    acc[mservice_id] = { host, port };
     return acc;
   }, {});
 
