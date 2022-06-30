@@ -4,7 +4,9 @@ import { PgPiBackend } from "../PgBackend.js";
 import mservices_net from "../../generated/mservices_net.js";
 
 import { usersSchemas } from "../../schemas/users.schemas.js";
+
 import Ajv from "ajv";
+import addFormats from "ajv-formats";
 
 const mservice_id = "users";
 const { port } = mservices_net[mservice_id];
@@ -13,6 +15,7 @@ _main();
 
 async function _main() {
   const ajv = new Ajv();
+  addFormats(ajv);
 
   const pi_sql = await PgPiBackend();
   // console.log(pi_sql);

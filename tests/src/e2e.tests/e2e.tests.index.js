@@ -1,11 +1,14 @@
 import axios from "axios";
 
+import crypto from "crypto";
+
 import { conf } from "../../../devops/conf.mjs";
 
 _main();
 
 async function _main() {
   for (const test of [
+    users_POST__valid,
     users_POST__empty,
     users_POST__missing_id,
     users_POST__bad_email,
@@ -15,15 +18,24 @@ async function _main() {
   }
 }
 
+async function users_POST__valid() {
+  const { status } = await _post(_url("users"), {
+    id: crypto.randomUUID(),
+    email: "john@doe.com",
+  });
+  expect({ expected: { status: 200 }, got: { status } });
+}
+
 async function users_POST__missing_id() {
   const { status } = await _post(_url("users"), {
     email: "john@doe.com",
   });
   expect({ expected: { status: 422 }, got: { status } });
 }
+
 async function users_POST__bad_email() {
   const { status } = await _post(_url("users"), {
-    id: "4654564",
+    id: crypto.randomUUID(),
     email: "invalid_email",
   });
   expect({ expected: { status: 422 }, got: { status } });

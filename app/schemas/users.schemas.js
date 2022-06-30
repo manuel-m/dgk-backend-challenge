@@ -4,8 +4,8 @@ export const usersSchemas = {
       body: {
         type: "object",
         properties: {
-          id: { type: "string" },
-          email: { type: "string" },
+          id: { type: "string", format: "uuid" },
+          email: { type: "string", format: "email" },
           phone: { type: "string" },
         },
         required: ["id", "email"],
