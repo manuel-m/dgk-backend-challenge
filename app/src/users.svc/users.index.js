@@ -1,5 +1,5 @@
 import { RestApp } from "../RestApp.js";
-import { PgPiBackend } from "../PgBackend.js";
+import { PgBackend } from "../PgBackend.js";
 
 import mservices_net from "../../generated/mservices_net.js";
 
@@ -8,7 +8,7 @@ import { usersSchemas } from "../../schemas/json/users.schemas.js";
 import Ajv from "ajv";
 import addFormats from "ajv-formats";
 
-import init_query from "../../generated/postgrespi.db.init.sql";
+import pi_init_query from "../../generated/postgrespi.db.init.sql";
 
 const ajv = new Ajv();
 addFormats(ajv);
@@ -27,7 +27,18 @@ const validate = {
 _main();
 
 async function _main() {
-  const pi_sql = await PgPiBackend({ init_query });
+  const { AD_USER, AD_PASSWORD, PI_USER, PI_PASSWORD } = process.env;
+
+  const pi_config = {
+    database: PI_USER,
+    host: mservices_net.postgrespi.host,
+    init_query: pi_init_query,
+    password: PI_PASSWORD,
+    port: mservices_net.postgrespi.port,
+    user: PI_USER,
+  };
+
+  const pi_sql = await PgBackend(pi_config);
 
   RestApp({
     mservice_id,
