@@ -1,23 +1,17 @@
-# Digikare - backend engineering challenge
+# dgk - backend engineering challenge
 
-## Build
-
-```
-npm run setup
-npm run build
-```
-
-## Setup
-
-### prerequisites
-
-- node v16+
-- k3s
-
-**k3s install**
+**Prerequisites**
 
 ```
-#as root
+Ubuntu 20+ LTS
+k3s version v1.23+
+Node v16+
+```
+
+**Quick start**
+
+```
+#k3s install as root
 curl -sfL https://get.k3s.io | sh -s - \
 --disable traefik \
 --disable metrics-server \
@@ -25,26 +19,68 @@ curl -sfL https://get.k3s.io | sh -s - \
 --disable-cloud-controller \
 --disable metrics-server \
 --write-kubeconfig-mode 644
+
+# copy and edit .env to match your preferences
+cp dotenv_sample .env
+
+npm install
+npm run setup
+npm run build
+
+# start local cluster
+sh dist/dgk-ort-dev-postgres/sbin/start.sh
 ```
 
-## Annexe
-
-### Source
-
-[Challenge](https://github.com/didomi/challenges/blob/master/backend/README.md)
-
-### postgresql
+Check microservices state
 
 ```
-#psql debug (from container)
-psql -u <pi_user>
+sh dist/dgk-ort-dev-postgres/sbin/watch.sh
+```
 
-#psql shortcuts
+```
+NAME READY STATUS RESTARTS AGE
+pod/postgrespi-deploy-0 1/1 Running 0 32m
+pod/nginx-deploy-7b6b88dbc4-tclgd 1/1 Running 0 32m
+pod/users-deploy-7c5bcdf649-kzxpv 1/1 Running 0 32m
+pod/postgresad-deploy-0 1/1 Running 0 32m
+...
 
-\d 	  list of all tables
-\d+ 	list of all relations
-\d    [table name] 	list of the columns, indexes and relations for the [table name]
-\dn 	list of all schemas (namespaces)
-\l 	  list of all databases
-\z 	  list tables with access privileges
+```
+
+**Running tests**
+
+```
+npm test
+```
+
+expected output
+
+```
+> dgk-backend-challenge@1.0.0 test
+> node build.mjs && node test.mjs
+
+users CRUD
+        users_POST__valid
+        users_POST__email_duplicate
+        users_POST__missing_id
+        users_POST__bad_email
+        users_POST__empty
+        users_GET
+        users_DELETE
+```
+
+**helpers scripts to manage local cluster**
+
+```
+
+
+dist/dgk-ort-dev-postgres/sbin/
+├── debug.sh
+├── events.sh
+├── logs.sh
+├── reset.sh
+├── restart.sh
+├── start.sh
+├── stop.sh
+└── watch.sh
 ```

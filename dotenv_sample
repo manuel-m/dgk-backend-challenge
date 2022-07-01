@@ -1,0 +1,5 @@
+deploy=dgk-ort-dev-postgres
+ad_user=ad
+ad_password=changeme
+pi_user=pi
+pi_password=changeme
