@@ -62,21 +62,41 @@ async function _main() {
     if (validate.POST_users.req.body(req.body) === false) {
       return res.status(422).end();
     }
-    const { email, phone } = Object.assign({ phone: "" }, req.body);
+    const { id, email, phone } = Object.assign({ phone: "" }, req.body);
     let err_code = 0;
 
-    await pi_sql`INSERT INTO pi_users (email, phone) values (${email}, ${phone})`.catch(
-      function (err) {
-        err_code = err.code;
-        console.warn(err.message);
-      }
-    );
+    const [pi_user] =
+      await pi_sql`INSERT INTO pi_users (id, email, phone) values (${id}, ${email}, ${phone}) RETURNING id, email`.catch(
+        onError
+      );
 
     if (err_code !== 0) {
       return res.status(422).end();
     }
 
-    res.json(req.body);
+    const [ad_user] =
+      await ad_sql`INSERT INTO ad_users (id) values (${id}) RETURNING id, consents`.catch(
+        onError
+      );
+
+    if (err_code !== 0) {
+      return res.status(422).end();
+    }
+
+    const data = {
+      id: pi_user.id,
+      email: pi_user.email,
+      consents: JSON.parse(ad_user.consents),
+    };
+
+    console.log(JSON.stringify(data));
+
+    res.json(data);
+
+    function onError(err) {
+      err_code = err.code;
+      console.warn(err.message);
+    }
   }
 }
 
