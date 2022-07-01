@@ -18,17 +18,15 @@ for (const mservice_id of ["consents", "users"]) {
     .catch(() => process.exit(1));
 }
 
-for (const mtest_id of ["e2e"]) {
-  esbuild
-    .build({
-      entryPoints: [`tests/src/${mtest_id}.tests/${mtest_id}.tests.index.js`],
-      bundle: true,
-      platform: "node",
-      outfile: dist_path + "/tests/" + mtest_id + ".test.js",
-      watch,
-    })
-    .catch(() => process.exit(1));
-}
+esbuild
+  .build({
+    entryPoints: ["tests/src/e2e.tests.index.js"],
+    bundle: true,
+    platform: "node",
+    outfile: dist_path + "/tests/e2e.test.js",
+    watch,
+  })
+  .catch(() => process.exit(1));
 
 function Opts(opts_default = {}) {
   const provided_opts = process.argv
