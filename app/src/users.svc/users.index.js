@@ -8,6 +8,7 @@ import { usersSchemas } from "../../schemas/json/users.schemas.js";
 import Ajv from "ajv";
 import addFormats from "ajv-formats";
 
+import ad_init_query from "../../generated/postgresad.db.init.sql";
 import pi_init_query from "../../generated/postgrespi.db.init.sql";
 
 const ajv = new Ajv();
@@ -29,16 +30,23 @@ _main();
 async function _main() {
   const { AD_USER, AD_PASSWORD, PI_USER, PI_PASSWORD } = process.env;
 
-  const pi_config = {
+  const pi_sql = await PgBackend({
     database: PI_USER,
     host: mservices_net.postgrespi.host,
     init_query: pi_init_query,
     password: PI_PASSWORD,
     port: mservices_net.postgrespi.port,
     user: PI_USER,
-  };
+  });
 
-  const pi_sql = await PgBackend(pi_config);
+  const ad_sql = await PgBackend({
+    database: AD_USER,
+    host: mservices_net.postgresad.host,
+    init_query: ad_init_query,
+    password: AD_PASSWORD,
+    port: mservices_net.postgresad.port,
+    user: AD_USER,
+  });
 
   RestApp({
     mservice_id,

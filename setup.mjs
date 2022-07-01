@@ -33,10 +33,8 @@ fs.copyFileSync(project_root + "/.env", dist_path + "/.env");
   );
 }
 
-// postgrepi schemas
-{
-  const sql_file = "postgrespi.db.init.sql";
-
+// postgres schemas
+for (const sql_file of ["postgresad.db.init.sql", "postgrespi.db.init.sql"]) {
   // [!] TODO escape `
   const sql_lines = fs
     .readFileSync("app/schemas/db/" + sql_file)
