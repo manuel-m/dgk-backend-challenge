@@ -36,16 +36,16 @@ async function _main() {
 
   async function POST_events(req, res) {
     if (validate.POST_events.req.body(req.body) === false) {
+      console.warn(req.body);
       return res.status(422).end();
     }
 
-    // const { id, consents } = req.body;
-    // const [err] = await backend.create({ id, consents });
+    const [err] = await backend.create(req.body);
 
-    // if (err !== null) {
-    //   console.warn(err);
-    //   return res.status(422).end();
-    // }
+    if (err !== null) {
+      console.warn(err);
+      return res.status(422).end();
+    }
     res.status(200).end();
   }
 }
