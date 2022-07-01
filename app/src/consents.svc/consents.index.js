@@ -2,15 +2,49 @@ import { RestApp } from "../RestApp.js";
 
 import mservices_net from "../../generated/mservices_net.js";
 
+import { consentsSchemas } from "./consents.schemas";
+
+import Ajv from "ajv";
+import addFormats from "ajv-formats";
+
+import { ConsentsBackend } from "./consents.backend";
+
+const ajv = new Ajv();
+addFormats(ajv);
+
 const mservice_id = "consents";
 const { port } = mservices_net[mservice_id];
 
-RestApp({
-  mservice_id,
-  port,
-  routes: [["/consents", "get", GET_consents]],
-});
+const validate = {
+  POST_events: {
+    req: {
+      body: ajv.compile(consentsSchemas.POST_consents.req.body),
+    },
+  },
+};
 
-function GET_consents(req, res) {
-  res.send("[SUCCESS]" + mservice_id + "\n");
+_main();
+
+async function _main() {
+  const backend = await ConsentsBackend();
+
+  RestApp({
+    mservice_id,
+    port,
+    routes: [["/events", "post", POST_events]],
+  });
+
+  async function POST_events(req, res) {
+    if (validate.POST_events.req.body(req.body) === false) {
+      return res.status(422).end();
+    }
+    // const { id, consents } = req.body;
+    // const [err] = await backend.create({ id, consents });
+
+    // if (err !== null) {
+    //   console.warn(err);
+    //   return res.status(422).end();
+    // }
+    res.status(200).end();
+  }
 }

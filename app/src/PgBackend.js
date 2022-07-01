@@ -20,6 +20,11 @@ export function PgBackend({
     _loopConnect().then(function () {
       console.log(database + " db init");
 
+      // [!] quick exit
+      if (!init_query) {
+        return resolve(sql);
+      }
+
       // [!] trusted
       sql
         .unsafe(init_query)
