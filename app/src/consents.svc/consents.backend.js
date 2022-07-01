@@ -32,6 +32,8 @@ SELECT consents FROM ad_users
   WHERE id = ${evt.user.id}`
       .then(function mergeConsents([data]) {
         consents = JSON.parse(data.consents);
+
+        // merge consents
         evt.consents.reduce(function (acc, new_consent) {
           const found = acc.find((o) => o.id === new_consent.id);
           if (found) {

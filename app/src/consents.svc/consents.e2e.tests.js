@@ -1,7 +1,5 @@
 import crypto from "crypto";
 
-// import { consentsSchemas } from "./consents.schemas";
-
 export function consents_e2e() {
   return {
     id: "consents CRUD",
@@ -62,6 +60,8 @@ export function consents_e2e() {
           },
         ],
       });
+
+      expect({ expected: { status: 200 }, got: { status } });
     }
 
     // check 2nd consents
