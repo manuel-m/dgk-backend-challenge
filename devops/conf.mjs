@@ -3,7 +3,13 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const dotenvRequiredKeys = ["deploy", "pi_user", "pi_password"];
+const dotenvRequiredKeys = [
+  "ad_user",
+  "ad_password",
+  "deploy",
+  "pi_user",
+  "pi_password",
+];
 
 const deploys = JSON.parse(fs.readFileSync("./conf/deploys.json"));
 const mservicesMap = JSON.parse(fs.readFileSync("./conf/mservices.json"));

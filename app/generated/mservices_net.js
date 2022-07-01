@@ -1,1 +1,1 @@
-export default {"postgrespi":{"host":"postgrespi-svc.dgk-ort-dev-postgres","port":5432},"users":{"host":"users-svc.dgk-ort-dev-postgres","port":5005},"nginx":{"host":"nginx-svc.dgk-ort-dev-postgres","port":8001}};
+export default {"postgrespi":{"host":"postgrespi-svc.dgk-ort-dev-postgres","port":5432},"postgresad":{"host":"postgresad-svc.dgk-ort-dev-postgres","port":5432},"users":{"host":"users-svc.dgk-ort-dev-postgres","port":5005},"nginx":{"host":"nginx-svc.dgk-ort-dev-postgres","port":8001}};

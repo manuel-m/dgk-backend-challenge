@@ -1,14 +1,14 @@
 import { k8s } from "../k8s.mjs";
 
-// postgres personal information
-export const postgrespi = { Yaml };
+// postgres anonymous data
+export const postgresad = { Yaml };
 
 function Yaml({
   deploy,
   dist_path,
   mservice_id,
-  pi_user,
-  pi_password,
+  ad_user,
+  ad_password,
   mservicesMap,
 }) {
   const { image, port } = mservicesMap[mservice_id];
@@ -31,7 +31,7 @@ spec:
         app: ${mservice_id}
     spec:
       volumes:
-      #- name: postgrespi-rw
+      #- name: postgresad-rw
       #  hostPath:
       #    path: ${dist_path}/data/${mservice_id}
       #    type: Directory    
@@ -39,15 +39,15 @@ spec:
       - name: ${k8s.yaml.container.name(mservice_id)}
         image: ${image}
         #volumeMounts:
-        #- name: postgrespi-rw
+        #- name: postgresad-rw
         #  mountPath: /data/db
         env:
           - name: POSTGRES_USER
-            value: ${pi_user}
+            value: ${ad_user}
           - name: POSTGRES_PASSWORD
-            value: ${pi_password}
+            value: ${ad_password}
           - name: POSTGRES_DB
-            value: ${pi_user}
+            value: ${ad_user}
 ---
 apiVersion: v1
 kind: Service

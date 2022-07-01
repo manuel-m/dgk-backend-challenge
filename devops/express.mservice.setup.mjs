@@ -1,6 +1,8 @@
 import { k8s } from "./k8s.mjs";
 
 export function Yaml({
+  ad_user,
+  ad_password,
   deploy,
   dist_path,
   pi_user,
@@ -52,6 +54,10 @@ spec:
             value: ${pi_user}
           - name: PI_PASSWORD
             value: ${pi_password}
+          - name: AD_USER
+            value: ${ad_user}
+          - name: AD_PASSWORD
+            value: ${ad_password}            
 ---
 apiVersion: v1
 kind: Service
