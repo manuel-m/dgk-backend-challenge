@@ -1,9 +1,8 @@
 import crypto from "crypto";
-import { cp } from "fs";
 
-import { usersSchemas } from "../../../app/schemas/json/users.schemas";
+import { usersSchemas } from "./users.schemas";
 
-export function users_CRUD_e2e() {
+export function users_e2e() {
   const new_users = [];
 
   return {
@@ -14,9 +13,22 @@ export function users_CRUD_e2e() {
       users_POST__missing_id,
       users_POST__bad_email,
       users_POST__empty,
+      users_GET,
       users_DELETE,
     ],
   };
+
+  async function users_GET({ expect, GET }) {
+    const got_users = [];
+    // GET user
+    for (const id of new_users.map((o) => o.id)) {
+      const { status, data: user } = await GET("users", { id });
+      expect({ expected: { status: 200 }, got: { status } });
+      got_users.push(user);
+    }
+
+    expect({ expected: new_users.sort(), got: got_users.sort() });
+  }
 
   async function users_DELETE({ expect, DELETE }) {
     // delete new users
@@ -32,6 +44,7 @@ export function users_CRUD_e2e() {
       expect({ expected: { status: 422 }, got: { status } });
     }
 
+    // [!] side effects
     new_users.length = 0;
   }
 

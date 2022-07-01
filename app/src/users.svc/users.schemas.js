@@ -1,4 +1,16 @@
 export const usersSchemas = {
+  GET_users: {
+    req: {
+      query: {
+        type: "object",
+        properties: {
+          id: { type: "string", format: "uuid" },
+        },
+        required: ["id"],
+        additionalProperties: false,
+      },
+    },
+  },
   DELETE_users: {
     req: {
       query: {
@@ -30,6 +42,7 @@ export const usersSchemas = {
         properties: {
           id: { type: "string", format: "uuid" },
           email: { type: "string", format: "email" },
+          phone: { type: "string" },
           consents: {
             type: "array",
             items: { $ref: "#/$defs/consents" },
