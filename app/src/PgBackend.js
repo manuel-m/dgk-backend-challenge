@@ -4,7 +4,7 @@ import postgres from "postgres";
 
 import mservices_net from "../generated/mservices_net";
 
-export function PgPiBackend() {
+export function PgPiBackend({ init_query }) {
   const { PI_USER, PI_PASSWORD } = process.env;
 
   return PgBackend({
@@ -12,11 +12,10 @@ export function PgPiBackend() {
     host: mservices_net.postgrespi.host,
     hooks: {
       onConnected(sql) {
-        return sql`
-        CREATE TABLE IF NOT EXISTS pi_users (
-            id uuid DEFAULT uuid_generate_v4 () PRIMARY KEY, 
-            email TEXT UNIQUE, phone TEXT DEFAULT ''
-        )`;
+        // [!] trusted
+        return sql.unsafe(init_query).catch(function (err) {
+          console.warn(err.message);
+        });
       },
     },
     password: PI_PASSWORD,
@@ -35,7 +34,7 @@ function PgBackend({ host, database, hooks, password, port, user }) {
       console.log(database + " db connecting...");
       if (hooks.onConnected) {
         hooks.onConnected(sql).then(function () {
-          console.log(database + " db ready");
+          console.log(database + " db connected");
           resolve(sql);
         });
       } else {
@@ -48,8 +47,9 @@ function PgBackend({ host, database, hooks, password, port, user }) {
         _loopConnect();
         function _loopConnect() {
           let error_flag = false;
-          sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`
-            .catch(function () {
+          sql`SELECT 1`
+            .catch(function (err) {
+              console.warn(err.message);
               error_flag = true;
             })
             .then(function () {

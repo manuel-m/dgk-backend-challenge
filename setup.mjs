@@ -33,6 +33,22 @@ fs.copyFileSync(project_root + "/.env", dist_path + "/.env");
   );
 }
 
+// postgrepi schemas
+{
+  const sql_file = "postgrespi.db.init.sql";
+
+  // [!] TODO escape `
+  const sql_lines = fs
+    .readFileSync("app/schemas/db/" + sql_file)
+    .toString()
+    .split("\n");
+
+  fs.writeFileSync(
+    `${project_root}/app/generated/${sql_file}.js`,
+    ["export default `", ...sql_lines, "`;"].join("\n")
+  );
+}
+
 // k8s watch command
 for (const cmd of Object.keys(k8s.sbin)) {
   fs.writeFileSync(`${dist_path}/sbin/${cmd}.sh`, k8s.sbin[cmd](conf));

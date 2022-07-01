@@ -1,13 +1,12 @@
 import crypto from "crypto";
 import axios from "axios";
 
-import { usersSchemas } from "../../../app/schemas/users.schemas";
+import { usersSchemas } from "../../../app/schemas/json/users.schemas";
 
 import { conf } from "../../../devops/conf.mjs";
 
 import Ajv from "ajv";
 import addFormats from "ajv-formats";
-import { cp } from "fs";
 
 const ajv = new Ajv();
 addFormats(ajv);
