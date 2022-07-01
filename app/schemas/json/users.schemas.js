@@ -1,4 +1,16 @@
 export const usersSchemas = {
+  DELETE_users: {
+    req: {
+      query: {
+        type: "object",
+        properties: {
+          id: { type: "string", format: "uuid" },
+        },
+        required: ["id"],
+        additionalProperties: false,
+      },
+    },
+  },
   POST_users: {
     req: {
       body: {

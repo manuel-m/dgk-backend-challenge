@@ -5,7 +5,7 @@ import { conf } from "../../devops/conf.mjs";
 import Ajv from "ajv";
 import addFormats from "ajv-formats";
 
-import users_POST_check_input from "./e2e.tests/users.e2e.inputs";
+import { users_CRUD_e2e } from "./e2e.tests/users.e2e.inputs";
 
 const ajv = new Ajv();
 addFormats(ajv);
@@ -13,18 +13,27 @@ addFormats(ajv);
 _main();
 
 async function _main() {
-  for (const [tests_id, tests] of [
-    ["users_POST_check_input", users_POST_check_input],
-  ]) {
-    console.log(tests_id);
+  for (const { id, tests } of [users_CRUD_e2e()]) {
+    console.log(id);
     for (const test of tests) {
       console.log("\t" + test.name);
-      await test({ ajv, expect, post });
+      await test({ ajv, expect, DELETE, POST });
     }
   }
 }
 
-function post(uri, data) {
+function DELETE(uri, params) {
+  return axios({
+    url: "http://localhost:" + conf.mservicesMap.nginx.port + "/" + uri,
+    method: "delete",
+    params,
+    validateStatus(status) {
+      return status < 500;
+    },
+  });
+}
+
+function POST(uri, data) {
   return axios({
     url: "http://localhost:" + conf.mservicesMap.nginx.port + "/" + uri,
     method: "post",

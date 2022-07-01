@@ -18,6 +18,11 @@ const mservice_id = "users";
 const { port } = mservices_net[mservice_id];
 
 const validate = {
+  DELETE_users: {
+    req: {
+      query: ajv.compile(usersSchemas.DELETE_users.req.query),
+    },
+  },
   POST_users: {
     req: {
       body: ajv.compile(usersSchemas.POST_users.req.body),
@@ -95,23 +100,38 @@ async function _main() {
 
     function onError(err) {
       err_code = err.code;
-      console.warn(err.message);
+      console.warn("POST_users", err.message);
     }
   }
-}
 
-function GET_users(req, res) {
-  res.json({
-    id: "00000000-0000-0000-0000-000000000000",
-    email: "valid@email.com",
-    consents: [],
-  });
-}
+  function GET_users(req, res) {
+    res.json({
+      id: "00000000-0000-0000-0000-000000000000",
+      email: "valid@email.com",
+      consents: [],
+    });
+  }
 
-function DELETE_users(req, res) {
-  res.json({
-    id: "00000000-0000-0000-0000-000000000000",
-    email: "valid@email.com",
-    consents: [],
-  });
+  async function DELETE_users(req, res) {
+    const { query } = req;
+    if (validate.DELETE_users.req.query(query) === false) {
+      console.warn("DELETE_users invalid query " + JSON.stringify(query));
+      return res.status(422).end();
+    }
+    const { id } = query;
+    let err_code = 0;
+    await pi_sql`DELETE from pi_users WHERE id = ${id} RETURNING *`
+      .then(function (data) {
+        if (data.length !== 1) {
+          err_code = 1;
+          console.warn("DELETE_users not matching id " + id);
+        }
+      })
+      .catch(function (err) {
+        err_code = err.code;
+        console.warn(this.name, err.message);
+      });
+
+    return res.status(err_code === 0 ? 200 : 422).end();
+  }
 }
