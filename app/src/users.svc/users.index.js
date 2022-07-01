@@ -65,33 +65,33 @@ async function _main() {
     const { id, email, phone } = Object.assign({ phone: "" }, req.body);
     let err_code = 0;
 
-    const [pi_user] =
-      await pi_sql`INSERT INTO pi_users (id, email, phone) values (${id}, ${email}, ${phone}) RETURNING id, email`.catch(
-        onError
-      );
+    let pi_user_data;
+    await pi_sql`INSERT INTO pi_users (id, email, phone) values (${id}, ${email}, ${phone}) RETURNING id, email`
+      .then(function ([data]) {
+        pi_user_data = data;
+      })
+      .catch(onError);
 
     if (err_code !== 0) {
       return res.status(422).end();
     }
 
-    const [ad_user] =
-      await ad_sql`INSERT INTO ad_users (id) values (${id}) RETURNING id, consents`.catch(
-        onError
-      );
+    let ad_user;
+    await ad_sql`INSERT INTO ad_users (id) values (${id}) RETURNING id, consents`
+      .then(function ([data]) {
+        ad_user = data;
+      })
+      .catch(onError);
 
     if (err_code !== 0) {
       return res.status(422).end();
     }
 
-    const data = {
-      id: pi_user.id,
-      email: pi_user.email,
+    res.json({
+      id: pi_user_data.id,
+      email: pi_user_data.email,
       consents: JSON.parse(ad_user.consents),
-    };
-
-    console.log(JSON.stringify(data));
-
-    res.json(data);
+    });
 
     function onError(err) {
       err_code = err.code;
