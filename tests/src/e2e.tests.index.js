@@ -6,6 +6,7 @@ import Ajv from "ajv";
 import addFormats from "ajv-formats";
 
 import { users_e2e } from "../../app/src/users.svc/users.e2e.tests";
+import { consents_e2e } from "../../app/src/consents.svc/consents.e2e.tests";
 
 const ajv = new Ajv();
 addFormats(ajv);
@@ -13,7 +14,7 @@ addFormats(ajv);
 _main();
 
 async function _main() {
-  for (const { id, tests } of [users_e2e()]) {
+  for (const { id, tests } of [users_e2e(), consents_e2e()]) {
     console.log(id);
     for (const test of tests) {
       console.log("\t" + test.name);

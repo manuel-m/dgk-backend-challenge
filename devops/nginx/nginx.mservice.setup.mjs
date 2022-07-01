@@ -39,7 +39,7 @@ http {
       listen 80;
       resolver kube-dns.kube-system.svc.cluster.local;
       ${Object.keys(mservicesMap)
-        .filter((id) => mservicesMap[id].proxy_pass === true)
+        .filter((id) => mservicesMap[id].proxy_pass)
         .map(_ContentProxy)
         .join("\n")}
     }
@@ -50,15 +50,15 @@ http {
 }
   `;
 
-    function _ContentProxy(target_mservice_id) {
-      const mservice = mservicesMap[target_mservice_id];
-      const serviceName = k8s.yaml.service.name(target_mservice_id);
+    function _ContentProxy(id) {
+      const mservice = mservicesMap[id];
+      const serviceName = k8s.yaml.service.name(id);
 
       return `
-    set $${target_mservice_id} ${serviceName}.${deploy}.svc.cluster.local;
-    #${target_mservice_id}
-    location /${target_mservice_id} {
-      proxy_pass http://$${target_mservice_id}:${mservice.port};
+    set $${id} ${serviceName}.${deploy}.svc.cluster.local;
+    #${id}
+    location /${mservice.proxy_pass} {
+      proxy_pass http://$${id}:${mservice.port};
       proxy_read_timeout  90;
     }`;
     }

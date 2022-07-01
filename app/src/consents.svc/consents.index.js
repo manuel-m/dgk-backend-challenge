@@ -38,6 +38,7 @@ async function _main() {
     if (validate.POST_events.req.body(req.body) === false) {
       return res.status(422).end();
     }
+
     // const { id, consents } = req.body;
     // const [err] = await backend.create({ id, consents });
 

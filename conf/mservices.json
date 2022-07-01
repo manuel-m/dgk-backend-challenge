@@ -1,7 +1,8 @@
 {
   "consents": {
     "image": "docker.io/library/node:16.15.1-bullseye",
-    "port": 5001
+    "port": 5001,
+    "proxy_pass": "events"
   },
   "events": {
     "port": 5002
@@ -29,6 +30,6 @@
   "users": {
     "image": "docker.io/library/node:16.15.1-bullseye",
     "port": 5005,
-    "proxy_pass": true
+    "proxy_pass": "users"
   }
 }
