@@ -4,7 +4,8 @@
     "port": 5001,
     "proxy_pass": "events"
   },
-  "events": {
+  "mirror": {
+    "image": "docker.io/library/node:16.15.1-bullseye",
     "port": 5002
   },
   "mongopi": {

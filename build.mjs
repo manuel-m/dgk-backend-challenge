@@ -6,7 +6,7 @@ const { dist_path } = conf;
 
 const { watch } = Opts({ watch: false });
 
-for (const mservice_id of ["consents", "users"]) {
+for (const mservice_id of ["consents", "mirror", "users"]) {
   esbuild
     .build({
       entryPoints: [`app/src/${mservice_id}.svc/${mservice_id}.index.js`],

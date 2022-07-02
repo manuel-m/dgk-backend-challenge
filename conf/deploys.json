@@ -1,6 +1,13 @@
 {
   "dgk-ort-dev-postgres": {
-    "mservices": ["postgrespi", "postgresad", "users", "consents", "nginx"]
+    "mservices": [
+      "mirror",
+      "postgrespi",
+      "postgresad",
+      "users",
+      "consents",
+      "nginx"
+    ]
   },
   "dgk-ort-dev-mongo": {
     "mservices": ["mongopi", "redis", "consents", "users", "nginx"]
