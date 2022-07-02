@@ -11,13 +11,12 @@ async function _main() {
   app.use(express.json());
 
   app.use(function (req, res, next) {
-    const { method, body, path, protocol, originalUrl, query } = req;
+    const { method, body, path, protocol, url, query } = req;
 
     const ts = Date.now();
     console.log(
-      JSON.stringify({ ts, method, body, path, protocol, originalUrl, query })
+      JSON.stringify({ ts, method, body, path, protocol, query, url })
     );
-
     next();
   });
 
