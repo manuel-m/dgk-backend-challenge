@@ -1,10 +1,12 @@
 {
   "consents": {
+    "build": "nodeBackend",
     "image": "docker.io/library/node:16.15.1-bullseye",
     "port": 5001,
     "proxy_pass": "events"
   },
   "mirror": {
+    "build": "nodeBackend",
     "image": "docker.io/library/node:16.15.1-bullseye",
     "port": 5002
   },
@@ -29,6 +31,7 @@
     "port": 5004
   },
   "users": {
+    "build": "nodeBackend",
     "image": "docker.io/library/node:16.15.1-bullseye",
     "port": 5005,
     "proxy_pass": "users"

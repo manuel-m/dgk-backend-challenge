@@ -6,7 +6,13 @@ const { dist_path } = conf;
 
 const { watch } = Opts({ watch: false });
 
-for (const mservice_id of ["consents", "mirror", "users"]) {
+const { mservicesMap } = conf;
+
+const nodeBackendArray = Object.keys(mservicesMap).filter(function (id) {
+  return mservicesMap[id].build === "nodeBackend";
+});
+
+for (const mservice_id of nodeBackendArray) {
   esbuild
     .build({
       entryPoints: [`app/src/${mservice_id}.svc/${mservice_id}.index.js`],
