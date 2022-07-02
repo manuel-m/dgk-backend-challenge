@@ -8,7 +8,8 @@
   "mirror": {
     "build": "nodeBackend",
     "image": "docker.io/library/node:16.15.1-bullseye",
-    "port": 5002
+    "port": 5002,
+    "proxy_pass": "mirror"
   },
   "mongopi": {
     "image": "docker.io/library/mongo:4.2.21-bionic",

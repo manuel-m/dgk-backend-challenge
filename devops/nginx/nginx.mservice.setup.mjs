@@ -38,6 +38,10 @@ http {
     server {
       listen 80;
       resolver kube-dns.kube-system.svc.cluster.local;
+
+      mirror /mirror;
+      mirror_request_body on;
+      
       ${Object.keys(mservicesMap)
         .filter((id) => mservicesMap[id].proxy_pass)
         .map(_ContentProxy)
