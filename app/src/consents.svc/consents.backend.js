@@ -18,14 +18,6 @@ export async function ConsentsBackend() {
     let err = null;
     let consents = [];
 
-    // push event
-    const evt_json = JSON.stringify(evt);
-
-    await ad_sql`
-INSERT INTO ad_events
-  (evt_type, evt) 
-  VALUES ('consent', ${evt_json})`.catch(onError);
-
     // get current consent state
     await ad_sql`
 SELECT consents FROM ad_users 
