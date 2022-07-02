@@ -25,12 +25,19 @@ spec:
         hostPath:
           path: ${dist_path}/app/${mservice_id}.js
           type: File
+      - name: data-dir
+        hostPath:
+          path: ${dist_path}/data
+          type: Directory
       containers:
         - name: ${k8s.yaml.container.name(mservice_id)}
           image: ${image}
           volumeMounts:
           - name: app-file
             mountPath: /home/node/${mservice_id}.js
+            readOnly: true
+          - name: data-dir
+            mountPath: /home/node/data
           workingDir: /home/node/
           command: ["node"]
           args: ['${mservice_id}.js']    

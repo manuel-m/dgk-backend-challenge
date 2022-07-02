@@ -1,5 +1,6 @@
 import express from "express";
 import mservices_net from "../../generated/mservices_net.js";
+import fs from "node:fs";
 
 const mservice_id = "mirror";
 const { port } = mservices_net[mservice_id];
@@ -7,6 +8,8 @@ const { port } = mservices_net[mservice_id];
 _main();
 
 async function _main() {
+  const file = fs.createWriteStream("data/requests.backup");
+
   const app = express();
   app.use(express.json());
 
@@ -14,8 +17,8 @@ async function _main() {
     const { method, body, path, protocol, url, query } = req;
 
     const ts = Date.now();
-    console.log(
-      JSON.stringify({ ts, method, body, path, protocol, query, url })
+    file.write(
+      JSON.stringify({ ts, method, body, path, protocol, query, url }) + "\n"
     );
     next();
   });

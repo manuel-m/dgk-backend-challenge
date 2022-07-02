@@ -38,6 +38,7 @@ spec:
           volumeMounts:
           - name: app-file
             mountPath: /home/node/${mservice_id}.js
+            readOnly: true
           workingDir: /home/node/
           command: ["node"]
           args: ['${mservice_id}.js']    
