@@ -69,7 +69,7 @@ http {
     set $${id} ${serviceName}.${deploy}.svc.cluster.local;
     #${id}
     location /${mservice.proxy_pass} {
-      proxy_pass http://$${id}:${mservice.port};
+      proxy_pass http://$${id}:${mservice.port}$request_uri;
       proxy_read_timeout  90;
     }`;
     }
