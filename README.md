@@ -8,6 +8,9 @@ k3s version v1.23+
 Node v16+
 ```
 
+**At a glance**
+![design](doc/img/design.svg)
+
 **Quick start**
 
 ```
@@ -69,15 +72,22 @@ users CRUD
         users_DELETE
 ```
 
+**Replay request**
+
+Api requests are stored into temporary file dist/<deploy>/data/**requests.backup**
+
+```
+# replay file located at data/requests.backup
+npm run replay
+```
+
 **helpers scripts to manage local cluster**
 
 ```
-
-
 dist/dgk-ort-dev-postgres/sbin/
-├── debug.sh
+├── debug.sh  <microservice_id>
 ├── events.sh
-├── logs.sh
+├── logs.sh   <microservice_id>
 ├── reset.sh
 ├── restart.sh
 ├── start.sh
