@@ -1,0 +1,16 @@
+{"ts":1656772604298,"method":"POST","body":{"id":"51c9aa09-329b-40b5-ae46-32e37719cc0c","email":"john_1656772604279@doe.com"},"path":"/users","protocol":"http","query":{},"url":"/users"}
+{"ts":1656772604349,"method":"POST","body":{"id":"ffa40719-635a-4790-86f5-ec9a1b2285bc","email":"john_1656772604345@doe.com"},"path":"/users","protocol":"http","query":{},"url":"/users"}
+{"ts":1656772604355,"method":"POST","body":{"id":"a5259ab8-1472-4ad2-b65f-1f7aac055389","email":"john_1656772604345@doe.com"},"path":"/users","protocol":"http","query":{},"url":"/users"}
+{"ts":1656772604359,"method":"POST","body":{"email":"john@doe.com"},"path":"/users","protocol":"http","query":{},"url":"/users"}
+{"ts":1656772604362,"method":"POST","body":{"id":"7cef53a6-db20-42c8-b411-6c62bad4a8e1","email":"invalid_email"},"path":"/users","protocol":"http","query":{},"url":"/users"}
+{"ts":1656772604365,"method":"POST","body":{},"path":"/users","protocol":"http","query":{},"url":"/users"}
+{"ts":1656772604370,"method":"GET","body":{},"path":"/users","protocol":"http","query":{"id":"51c9aa09-329b-40b5-ae46-32e37719cc0c"},"url":"/users?id=51c9aa09-329b-40b5-ae46-32e37719cc0c"}
+{"ts":1656772604375,"method":"GET","body":{},"path":"/users","protocol":"http","query":{"id":"ffa40719-635a-4790-86f5-ec9a1b2285bc"},"url":"/users?id=ffa40719-635a-4790-86f5-ec9a1b2285bc"}
+{"ts":1656772604379,"method":"DELETE","body":{},"path":"/users","protocol":"http","query":{"id":"51c9aa09-329b-40b5-ae46-32e37719cc0c"},"url":"/users?id=51c9aa09-329b-40b5-ae46-32e37719cc0c"}
+{"ts":1656772604385,"method":"DELETE","body":{},"path":"/users","protocol":"http","query":{"id":"ffa40719-635a-4790-86f5-ec9a1b2285bc"},"url":"/users?id=ffa40719-635a-4790-86f5-ec9a1b2285bc"}
+{"ts":1656772604388,"method":"DELETE","body":{},"path":"/users","protocol":"http","query":{"id":"51c9aa09-329b-40b5-ae46-32e37719cc0c"},"url":"/users?id=51c9aa09-329b-40b5-ae46-32e37719cc0c"}
+{"ts":1656772604391,"method":"POST","body":{"id":"26ed2d03-8416-4ce4-ac73-f9bf6f74b91c","email":"john_1656772604389@doe.com"},"path":"/users","protocol":"http","query":{},"url":"/users"}
+{"ts":1656772604397,"method":"POST","body":{"user":{"id":"26ed2d03-8416-4ce4-ac73-f9bf6f74b91c"},"consents":[{"id":"email_notifications","enabled":true}]},"path":"/events","protocol":"http","query":{},"url":"/events"}
+{"ts":1656772604412,"method":"GET","body":{},"path":"/users","protocol":"http","query":{"id":"26ed2d03-8416-4ce4-ac73-f9bf6f74b91c"},"url":"/users?id=26ed2d03-8416-4ce4-ac73-f9bf6f74b91c"}
+{"ts":1656772604417,"method":"POST","body":{"user":{"id":"26ed2d03-8416-4ce4-ac73-f9bf6f74b91c"},"consents":[{"id":"sms_notifications","enabled":true}]},"path":"/events","protocol":"http","query":{},"url":"/events"}
+{"ts":1656772604422,"method":"GET","body":{},"path":"/users","protocol":"http","query":{"id":"26ed2d03-8416-4ce4-ac73-f9bf6f74b91c"},"url":"/users?id=26ed2d03-8416-4ce4-ac73-f9bf6f74b91c"}
